@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <title>タピタピ</title>
+        <link rel="stylesheet" href="style.css" />
+
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCABSoEfPB83xpFGfiJPj7aMpRwzMlOhMU"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="app.js"></script>
+    </head>
+    <body>
+        <div id="map"></div>
+        <form action="#" method="post">
+            <div>
+                <label for="name">店名</label>
+                <input type="text" name="name" id="name" />
+            </div>
+            <div>
+                <label for="ido">緯度</label>
+                <input type="text" name="ido" id="ido" />
+            </div>
+            <div>
+                <label for="keido">経度</label>
+                <input type="text" name="keido" id="keido" />
+            </div>
+            <div>
+                <label for="konzatu">混雑度</label>
+                <input type="text" name="konzatu" id="konzatu" />
+            </div>
+            <div>
+                <button type="submit" id="btn">登録する</button>
+            </div>
+        </form>
+    </body>
+</html>
