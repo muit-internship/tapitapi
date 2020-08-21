@@ -33,16 +33,45 @@ $(function () {
         var map = new google.maps.Map(document.getElementById("map"), opts)
         var i = data.length
         var iw = new google.maps.InfoWindow()
-        while (i-- > 0) {
-            var dat = data[i]
+        var marker = new Array()
+
+        for (var j = 0; j < i; j++) {
+            var dat = data[j]
             var obj = {
                 position: new google.maps.LatLng(dat.ido, dat.keido),
                 map: map,
             }
-            var marker = new google.maps.Marker(obj)
-            attach_message(map, marker, dat.name, dat.konzatu, iw)
+            marker[j] = new google.maps.Marker(obj)
+            attach_message(map, marker[j], dat.name, dat.konzatu, iw)
             iw.close()
         }
+
+        var minX = marker[0].getPosition().lng()
+        var minY = marker[0].getPosition().lat()
+        var maxX = marker[0].getPosition().lng()
+        var maxY = marker[0].getPosition().lat()
+
+        for (var j = 0; j < i; j++) {
+            var lt = marker[j].getPosition().lat()
+            var lg = marker[j].getPosition().lng()
+            if (lg <= minX) {
+                minX = lg
+            }
+            if (lg > maxX) {
+                maxX = lg
+            }
+            if (lt <= minY) {
+                minY = lt
+            }
+            if (lt > maxY) {
+                maxY = lt
+            }
+        }
+
+        var sw = new google.maps.LatLng(maxY, minX)
+        var ne = new google.maps.LatLng(minY, maxX)
+        var bounds = new google.maps.LatLngBounds(sw, ne)
+        map.fitBounds(bounds)
     }
 })
 
@@ -50,10 +79,9 @@ $(function () {
     $("#btn").click(function () {
         var button = $(this)
         button.attr("disabled", true)
-
         var data = {
             TableName: "intern-ag-shop",
-            item: {
+            Item: {
                 name: {
                     S: $("#name").val(),
                 },
@@ -69,7 +97,6 @@ $(function () {
             },
         }
 
-        console.log(data)
         $.ajax({
             type: "post",
             url: url,
